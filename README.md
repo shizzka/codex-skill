@@ -10,12 +10,14 @@ The repository is intentionally split into generic orchestration and domain-spec
 
 Adapted from [harnessmachine/codex-orchestrate](https://github.com/harnessmachine/codex-orchestrate).
 
-It keeps orchestration implicit, but adds a delegation threshold:
+It keeps orchestration implicit, but adds a delegation threshold and explicit model routing:
 
 - **GPT-6.1 Sol** owns orchestration, coding, debugging, integration and review.
 - **GPT-6 Luna** gets substantial bounded mechanical work: multi-file/context search, multi-source research, test batches, logs, traces, screenshots and evidence collection.
+- Luna workers are spawned explicitly as `gpt-6-luna` with low reasoning by default. The skill does not rely on inheriting the parent Sol model.
 - **GPT-6 Astra** is escalation-only.
 - A trivial lookup, one known file, one command, or one tiny check stays on the current agent. Delegating it would often cost more than doing it directly.
+- Low-risk review is batched at natural milestones instead of spawning a fresh Sol reviewer after every intermediate blocker.
 - Default concurrency is at most two subagents.
 
 ### `hh-apply-debug`
@@ -69,6 +71,8 @@ REPO="$CODEX_ROOT/shizzka-codex-skills"
 git -C "$REPO" pull --ff-only
 bash "$REPO/install.sh"
 ```
+
+Start a new Codex session after updating so the changed skill instructions are loaded.
 
 ## Layout
 
