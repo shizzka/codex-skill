@@ -1,0 +1,7 @@
+interface:
+  display_name: "HH Apply Debug"
+  short_description: "Evidence-first debugging for Job Hunter HH apply flow"
+  default_prompt: "Use $hh-apply-debug to classify the observed HeadHunter apply UI, preserve browser evidence, add a regression reproducer, make the smallest safe fix, and verify the relevant flow without unsafe retries."
+
+policy:
+  allow_implicit_invocation: true
