@@ -48,7 +48,11 @@ Keep these principles intact:
 - do not delegate trivial work;
 - GPT-6.1 Sol owns orchestration and engineering judgment;
 - GPT-6 Luna handles substantial bounded mechanical/context work;
+- every Luna spawn must explicitly request `model = "gpt-6-luna"` and usually `reasoning_effort = "low"`;
+- do not rely on child-model inheritance for budget-sensitive routing;
 - GPT-6 Astra is escalation-only;
+- batch low-risk review at natural milestones rather than spawning a fresh Sol reviewer after every small blocker;
+- immediate review remains appropriate for safety/auth/external-action/security/destructive changes;
 - default concurrency is at most two subagents;
 - evidence matters more than worker claims.
 
