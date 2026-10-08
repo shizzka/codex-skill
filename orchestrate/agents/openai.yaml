@@ -1,7 +1,0 @@
-interface:
-  display_name: "Orchestrate"
-  short_description: "Budget-aware delegation and verified integration"
-  default_prompt: "Use $orchestrate to delegate bounded work with budget-first model routing. Prefer GPT-6 Luna for cheap mechanical context/check tasks, GPT-6.1 Sol for orchestration, coding, debugging and review, and GPT-6 Astra only for explicit escalation conditions. Verify the integrated result from evidence."
-
-policy:
-  allow_implicit_invocation: true
