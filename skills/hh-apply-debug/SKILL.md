@@ -41,7 +41,7 @@ For action invariants read `references/apply-invariants.md`.
 
 For evidence collection and DOM classification read `references/browser-evidence.md`.
 
-Before handoff run `scripts/candidate-report.sh`.
+Before handoff run `bash scripts/candidate-report.sh`.
 
 ## Handoff requirements
 
