@@ -41,7 +41,13 @@ For action invariants read `references/apply-invariants.md`.
 
 For evidence collection and DOM classification read `references/browser-evidence.md`.
 
-Before handoff run `bash scripts/candidate-report.sh`.
+Before handoff run:
+
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/hh-apply-debug/scripts/candidate-report.sh"
+```
+
+Do not assume the current working directory is the skill directory.
 
 ## Handoff requirements
 
