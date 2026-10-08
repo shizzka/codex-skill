@@ -1,7 +1,7 @@
 interface:
   display_name: "Orchestrate"
-  short_description: "Budget-aware delegation with verified integration"
-  default_prompt: "Use $orchestrate when delegation will materially reduce context, cost, latency, or verification risk. Keep trivial lookups and one-step checks local. Prefer GPT-6 Luna for substantial bounded mechanical work, GPT-6.1 Sol for orchestration and engineering, and GPT-6 Astra only for explicit escalation conditions."
+  short_description: "Budget-aware delegation with explicit model routing"
+  default_prompt: "Use $orchestrate when delegation materially reduces context, cost, latency, or verification risk. Keep trivial work local. For Luna-class workers explicitly spawn model gpt-6-luna with low reasoning; never rely on inheritance. Use gpt-6.1-sol for orchestration, engineering, and batched review. Use gpt-6-astra only for explicit escalation conditions. Batch low-risk reviews instead of reviewing every intermediate blocker."
 
 policy:
   allow_implicit_invocation: true
