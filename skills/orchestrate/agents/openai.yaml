@@ -1,0 +1,7 @@
+interface:
+  display_name: "Orchestrate"
+  short_description: "Budget-aware delegation with verified integration"
+  default_prompt: "Use $orchestrate when delegation will materially reduce context, cost, latency, or verification risk. Keep trivial lookups and one-step checks local. Prefer GPT-6 Luna for substantial bounded mechanical work, GPT-6.1 Sol for orchestration and engineering, and GPT-6 Astra only for explicit escalation conditions."
+
+policy:
+  allow_implicit_invocation: true
