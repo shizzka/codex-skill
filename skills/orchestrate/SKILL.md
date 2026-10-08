@@ -55,14 +55,14 @@ Do not spawn a worker only to save model price on a task that is too small to am
    - recommended next step.
 7. Inspect actual evidence. `DONE` is a claim, not proof.
 8. Return defects to the responsible implementer.
-9. Use a fresh independent reviewer only when the change has meaningful behavioral, integration, security, or regression risk.
+9. Use independent review according to the review budget below.
 10. Synthesize the final answer only after the integrated result is verified.
 
 Keep coordination in messages and HANDOFF replies. Do not create planning files, state files, logs, or bookkeeping artifacts unless the user or repository contract explicitly requires them.
 
 ## Budget-first model routing
 
-Use the user's explicit routing when provided. Otherwise prefer this routing when the models are available.
+Use the user's explicit routing when provided. Otherwise use this routing when the models are available.
 
 ### GPT-6.1 Sol: orchestrator and engineering work
 
@@ -78,6 +78,13 @@ Use **GPT-6.1 Sol** with **medium** reasoning by default for:
 
 Increase reasoning to **high** for ambiguous architecture, difficult root-cause analysis, concurrency bugs, risky migrations, cross-cutting refactors, or conflicting evidence.
 
+When spawning a Sol subagent, explicitly request:
+
+- `model = "gpt-6.1-sol"`
+- `reasoning_effort = "medium"` by default
+
+Do not omit the model field when the child is intended to be Sol; omission may inherit another model or future default.
+
 ### GPT-6 Luna: bounded mechanical work
 
 Use **GPT-6 Luna** with **low** reasoning for sufficiently substantial but bounded mechanical work:
@@ -90,7 +97,14 @@ Use **GPT-6 Luna** with **low** reasoning for sufficiently substantial but bound
 - deterministic comparisons against explicit acceptance criteria;
 - compressing raw evidence into a narrow handoff.
 
-Use Luna with **medium** reasoning for bounded local analysis when the decision is reversible, evidence-backed, and does not require architecture ownership.
+For Luna-class work, **always spawn the child explicitly** with:
+
+- `model = "gpt-6-luna"`
+- `reasoning_effort = "low"`
+
+Do not rely on inherited model selection. If the spawn tool supports a model override, pass it every time.
+
+Use Luna with **medium** reasoning only for bounded local analysis when the decision is reversible, evidence-backed, and does not require architecture ownership. In that case explicitly request `reasoning_effort = "medium"`.
 
 Do not delegate a single quick lookup to Luna by default. The orchestration and handoff can cost more than the lookup itself.
 
@@ -108,9 +122,33 @@ Use **GPT-6 Astra** only when at least one condition is true:
 - there is meaningful security, destructive-data, or irreversible migration risk;
 - Sol cannot reach a confident acceptance decision from the available evidence.
 
+When Astra is justified, explicitly request `model = "gpt-6-astra"` and an appropriate supported reasoning effort.
+
 Do not escalate merely because a command failed, a test is red, or a worker requested a stronger model.
 
 If Astra is unavailable, keep the task on GPT-6.1 Sol and increase reasoning effort rather than blocking the workflow.
+
+## Review budget
+
+Independent review is valuable, but repeating a fresh Sol review after every small blocker can waste substantial quota.
+
+Default behavior:
+
+- batch several low-risk, related fixes and review the integrated batch once at a natural milestone;
+- do not spawn a separate reviewer after every regression fixture, selector correction, parser adjustment, or bounded lifecycle fix;
+- the orchestrator may accept a low-risk intermediate fix from evidence and continue to the next blocker.
+
+Use an immediate fresh Sol reviewer when the change touches:
+
+- safety guards or fail-closed behavior;
+- authentication or session ownership;
+- external submit/send/action boundaries;
+- destructive or irreversible behavior;
+- security-sensitive code;
+- a broad cross-cutting refactor;
+- a defect that already survived one attempted fix.
+
+At a batch review, explicitly spawn the reviewer as `gpt-6.1-sol` with `medium` reasoning unless the risk warrants `high`.
 
 ## Cost and concurrency discipline
 
@@ -122,22 +160,23 @@ If Astra is unavailable, keep the task on GPT-6.1 Sol and increase reasoning eff
 - Do not run a full test suite automatically when targeted checks and smoke tests are sufficient, unless repository rules or the task require it.
 - Avoid repeated reviewer loops. Review must identify concrete defects or accept the result.
 - Reuse existing evidence instead of asking multiple workers to rediscover the same context.
+- Prefer one Luna worker that can perform a coherent batch of search/evidence/test work over several tiny Luna workers.
 
 ## Testing
 
 Separate test execution from engineering interpretation.
 
-Typical flow:
+Typical low-risk flow:
 
 ```text
 Sol orchestrator
-  -> Luna: run a meaningful batch of checks and collect evidence
+  -> Luna low: collect context/evidence and run a meaningful batch of checks
       -> PASS: Sol accepts or continues
       -> FAIL: Luna returns exact evidence
           -> Sol: diagnose and implement the smallest fix
-              -> Luna: rerun targeted checks
-                  -> optional bounded smoke
-                      -> fresh Sol reviewer only if risk justifies it
+              -> Luna low: rerun targeted checks
+                  -> continue to next bounded blocker
+                      -> one Sol review at a natural batch boundary
 ```
 
 For one tiny test command, Sol may run it directly. Do not create a Luna worker solely to execute a command that is cheaper than the handoff.
