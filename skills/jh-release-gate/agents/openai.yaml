@@ -1,0 +1,7 @@
+interface:
+  display_name: "JH Release Gate"
+  short_description: "Bounded release verification for Job Hunter"
+  default_prompt: "Use $jh-release-gate on a frozen Job Hunter candidate. Run targeted checks first, then required E2E smoke, one independent review, and at most one final full-suite run for the unchanged candidate. Stop on blockers and return PASS, FAIL, or BLOCKED. Do not publish or push."
+
+policy:
+  allow_implicit_invocation: true
