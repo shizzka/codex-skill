@@ -150,6 +150,22 @@ Use an immediate fresh Sol reviewer when the change touches:
 
 At a batch review, explicitly spawn the reviewer as `gpt-6.1-sol` with `medium` reasoning unless the risk warrants `high`.
 
+## Learning handoff
+
+After a meaningful implementation or debugging task is complete, and only when the user did not already ask for an explanation, add one short reminder that the generic `explain-the-change` skill is available.
+
+Preferred wording:
+
+`Готово. Хочешь, разложу изменение на пальцах через explain-the-change? Можно просто написать «с объяснением».`
+
+Rules:
+
+- advertise once per completed task, not after every intermediate step;
+- do not invoke `explain-the-change` automatically;
+- do not advertise it after research-only, documentation-only, or trivial mechanical tasks;
+- skip the reminder when the user already asked for an explanation or the handoff already contains a teaching pass;
+- keep the reminder to one sentence so it does not become another ceremony.
+
 ## Cost and concurrency discipline
 
 - Prefer one capable worker over several overlapping workers.

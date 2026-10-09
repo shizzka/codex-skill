@@ -6,6 +6,14 @@ The repository is intentionally split into generic orchestration and domain-spec
 
 ## Included skills
 
+### `explain-the-change`
+
+A generic post-task teaching pass for any repository.
+
+Invoke it directly or simply add **"с объяснением"** to a task. It explains the real diff and execution path, why changed code belongs where it does, what would break without it, and how the change was verified. It can switch to a low-jargon "на пальцах" / ELI5 mode without turning the answer into generic Python lessons.
+
+It is deliberately **not** automatic: implementation stays implementation. The orchestrator only reminds the user once after meaningful engineering work that this teaching pass is available.
+
 ### `orchestrate`
 
 Adapted from [harnessmachine/codex-orchestrate](https://github.com/harnessmachine/codex-orchestrate).
@@ -97,6 +105,7 @@ Start a new Codex session after updating so the changed skill instructions are l
 ```text
 skills/
   orchestrate/
+  explain-the-change/
   hh-apply-debug/
   jh-runtime-debug/
   jh-e2e-smoke/

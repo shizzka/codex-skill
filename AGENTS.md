@@ -58,6 +58,16 @@ Keep these principles intact:
 
 Domain-specific workflows belong in separate skills and may compose with `orchestrate`.
 
+## Explanation skill policy
+
+`skills/explain-the-change` is generic and may be used in any repository after implementation or debugging.
+
+- Explicit triggers include `explain-the-change`, "с объяснением", "объясни изменения", "на пальцах", and equivalent requests.
+- It is a teaching pass over the actual diff and execution path, not a second implementation pass.
+- Do not auto-run it after every task; that would waste context and quota.
+- `orchestrate` may advertise it once after a meaningful implementation/debugging handoff when the user did not already request an explanation.
+- Do not advertise it after research-only, documentation-only, or trivial mechanical work.
+
 ## Changes
 
 Preserve upstream attribution and MIT license in `skills/orchestrate`.
