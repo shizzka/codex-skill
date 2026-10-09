@@ -1,0 +1,7 @@
+interface:
+  display_name: "JH Runtime Debug"
+  short_description: "Evidence-first debugging for Job Hunter runtime failures"
+  default_prompt: "Use $jh-runtime-debug for non-HH-apply Job Hunter failures. Find the first bad transition, classify the subsystem, reproduce the smallest case, add regression coverage, make the smallest safe fix, and verify it with targeted evidence. Route HH apply/browser UI defects to $hh-apply-debug."
+
+policy:
+  allow_implicit_invocation: true
