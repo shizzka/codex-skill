@@ -26,6 +26,24 @@ Evidence-first debugging for HeadHunter apply-flow bugs in Job Hunter.
 
 It handles browser-state classification, resume identity, employer questions, cover-letter detection, confirmation/submit controls, uncertain dispatch, regression fixtures and bounded E2E verification.
 
+### `jh-runtime-debug`
+
+Evidence-first debugging for non-HH-apply Job Hunter runtime failures.
+
+It covers matcher/provider fallback, search pipeline, profile isolation, state, analytics, Telegram control-plane, resume/facts pipeline, command dispatch and cross-module runtime regressions.
+
+### `jh-e2e-smoke`
+
+Bounded end-to-end acceptance for Job Hunter.
+
+It defines offline, authenticated read-only, live pre-submit and explicitly authorized live-submit smoke levels, and reports exactly what integration path was proven.
+
+### `jh-release-gate`
+
+A bounded release gate for a frozen Job Hunter candidate.
+
+It enforces the order targeted checks -> required E2E smoke -> one independent review -> at most one final full-suite run for the unchanged candidate, then returns PASS, FAIL or BLOCKED.
+
 ## Install all skills
 
 Preferred installation keeps this repository in a stable location and symlinks each skill into Codex:
@@ -80,8 +98,11 @@ Start a new Codex session after updating so the changed skill instructions are l
 skills/
   orchestrate/
   hh-apply-debug/
+  jh-runtime-debug/
+  jh-e2e-smoke/
+  jh-release-gate/
 install.sh
 AGENTS.md
 ```
 
-Future skills such as `jh-e2e-smoke` and `jh-release-gate` belong beside these under `skills/`, not inside `orchestrate`.
+Job Hunter-specific skills stay beside `orchestrate` under `skills/`; generic model routing and delegation policy remain inside `orchestrate`.
