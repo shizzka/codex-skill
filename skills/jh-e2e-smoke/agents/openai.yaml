@@ -1,0 +1,7 @@
+interface:
+  display_name: "JH E2E Smoke"
+  short_description: "Bounded end-to-end acceptance for Job Hunter"
+  default_prompt: "Use $jh-e2e-smoke to prove the smallest critical Job Hunter path end to end. Use the least risky smoke level, preserve evidence, stop at external-action boundaries unless explicitly authorized, and report PASS, FAIL, or BLOCKED without broadening into a full regression campaign."
+
+policy:
+  allow_implicit_invocation: true
